@@ -22,7 +22,6 @@ import Page from "@/components/ui/page";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageIcon } from "lucide-react";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
-
 type DrawingType = {
   id: number;
   name: string;
@@ -38,7 +37,9 @@ interface Form extends HTMLFormElement {
 export default function Drawings() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [drawings, setDrawings] = useState<DrawingType[]>([]);
+  const [message, setMessage] = useState<string>("");
   const [onUploadFile, setOnUploadFile] = useState(false);
+  const [onDeleteDrawing, setOnDeleteDrawing] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [newDrawing, setNewDrawing] = useState("");
   const formRef = useRef<Form>(null);
@@ -87,15 +88,24 @@ export default function Drawings() {
           method: "POST",
           mode: "no-cors",
           body: img_file,
-        }).then((response) => response.json());
-        setOnUploadFile(false);
+        }).then((response) => setMessage(JSON.stringify(response)));
       })
     );
+    console.log(message);
+
+    setOnUploadFile(false);
+  };
+
+  const deleteDrawing = (drawing_id: number) => {
+    fetch(`${BASE_URL}/drawings/delete/${drawing_id}`, {
+      method: "DELETE",
+    }).then(() => setOnDeleteDrawing(false));
   };
 
   return (
     <Page>
       <Dialog
+        open={onUploadFile}
         onOpenChange={() => {
           setOnUploadFile(!onUploadFile);
           if (onUploadFile == false) {
@@ -192,7 +202,7 @@ export default function Drawings() {
           return (
             <Card
               key={drawing.id}
-              className="w-full grid grid-rows-[fit-content_fit_content_fit-content] border-(--border) cursor-pointer hover:border-(--card-foreground) hover:bg-(--card-foreground)/10"
+              className="w-full grid grid-rows-[fit-content_fit_content_fit-content] border-(--border) hover:border-(--card-foreground)"
             >
               <CardHeader>
                 <CardTitle>{drawing.name}</CardTitle>
@@ -204,7 +214,35 @@ export default function Drawings() {
                   alt="Image du projet"
                 />
               </CardContent>
-              <CardFooter>{drawing.description}</CardFooter>
+              <CardFooter className=" grid">
+                <div>{drawing.description}</div>
+                <div>
+                  <Dialog
+                    open={onDeleteDrawing}
+                    onOpenChange={setOnDeleteDrawing}
+                  >
+                    <DialogTrigger className=" rounded p-1 w-full mt-2 bg-red-600! hover:bg-red-700! ">
+                      Supprimer
+                    </DialogTrigger>
+                    <DialogContent className="bg-(--secondary) border-(--border)">
+                      <DialogHeader>
+                        <DialogTitle>Supprimer le dessin ?</DialogTitle>
+                        <DialogDescription className=" w-full py-4 grid grid-cols-2 gap-4">
+                          <DialogClose asChild>
+                            <Button className=" bg-(--input)!">Annuler</Button>
+                          </DialogClose>
+                          <Button
+                            onClick={() => deleteDrawing(drawing.id)}
+                            className="bg-red-600! hover:bg-red-700!"
+                          >
+                            Confirmer
+                          </Button>
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardFooter>
             </Card>
           );
         })}
