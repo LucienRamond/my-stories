@@ -7,24 +7,16 @@ import {
 } from "@/components/ui/navigation-menu";
 import TextedSeparator from "@/components/ui/texted-separator";
 import { Link } from "@radix-ui/react-navigation-menu";
-import {
-  CircleQuestionMarkIcon,
-  CircleUserRoundIcon,
-  FolderCodeIcon,
-  HomeIcon,
-  SettingsIcon,
-} from "lucide-react";
-import { MenuIcon } from "lucide-react";
+import { BookTextIcon, FolderCodeIcon, HomeIcon, MenuIcon } from "lucide-react";
 import { useState } from "react";
 
 export default function MobileNavbar() {
   const [open, setOpen] = useState(false);
 
-  console.log(open);
-
   const toggleMenu = () => {
     return setOpen(!open);
   };
+
   return (
     <div className="w-full p-2 absolute">
       <div className=" grid grid-cols-1">
@@ -47,7 +39,7 @@ export default function MobileNavbar() {
 
         <div
           className={`${
-            open ? "grow-menu h-[460px]" : "reduce-menu h-[54px]"
+            open ? "grow-menu h-[300px]" : "reduce-menu h-[54px]"
           } pt-10 bg-(--card) rounded-xl border border-(--border) row-start-1 z-5 row-end-2 col-start-1 col-end-2 w-full col-span-2`}
         >
           <NavigationMenu
@@ -77,13 +69,13 @@ export default function MobileNavbar() {
 
               <NavigationMenuItem className="h-20 flex items-center">
                 <NavigationMenuLink asChild>
-                  <Link href="/a-propos" className=" h-full  rounded-none">
+                  <Link href="/histoires" className=" h-full  rounded-none">
                     <div className=" flex gap-2  p-2">
-                      <CircleQuestionMarkIcon
+                      <BookTextIcon
                         color="var(--muted-foreground)"
                         className=" scale-125 mt-1.5"
                       />
-                      <div className=" text-lg font-semibold">À propos</div>
+                      <div className=" text-lg font-semibold">Histoires</div>
                     </div>
                   </Link>
                 </NavigationMenuLink>
@@ -94,7 +86,7 @@ export default function MobileNavbar() {
               <NavigationMenuItem className="h-20 flex items-center">
                 <NavigationMenuLink asChild>
                   <Link
-                    href="/projets"
+                    href="/dessins"
                     className=" hover:bg-(--input) h-full  rounded-none"
                   >
                     <div className=" flex gap-2  p-2">
@@ -102,45 +94,7 @@ export default function MobileNavbar() {
                         color="var(--muted-foreground)"
                         className=" scale-125 mt-1.5"
                       />
-                      <div className=" text-lg font-semibold">Projets</div>
-                    </div>
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <div className=" w-[50vw]">
-                <TextedSeparator />
-              </div>
-              <NavigationMenuItem className=" h-20 flex items-center">
-                <NavigationMenuLink asChild>
-                  <Link
-                    href="/competences"
-                    className=" hover:bg-(--input) h-full  rounded-none"
-                  >
-                    <div className=" flex gap-2  p-2">
-                      <SettingsIcon
-                        color="var(--muted-foreground)"
-                        className=" scale-125 mt-1.5"
-                      />
-                      <div className=" text-lg font-semibold">Compétences</div>
-                    </div>
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <div className=" w-[30vw]">
-                <TextedSeparator />
-              </div>
-              <NavigationMenuItem className=" h-20  flex items-center">
-                <NavigationMenuLink asChild>
-                  <Link
-                    href="/contact"
-                    className=" hover:bg-(--input) h-full w-full rounded-l-none rounded-r-[15px]"
-                  >
-                    <div className=" flex gap-2  p-2">
-                      <CircleUserRoundIcon
-                        color="var(--muted-foreground)"
-                        className=" scale-125 mt-1.5"
-                      />
-                      <div className=" text-lg font-semibold">Contact</div>
+                      <div className=" text-lg font-semibold">Dessins</div>
                     </div>
                   </Link>
                 </NavigationMenuLink>

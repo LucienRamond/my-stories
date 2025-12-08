@@ -7,7 +7,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Link } from "@radix-ui/react-navigation-menu";
-import { HomeIcon, ImageIcon } from "lucide-react";
+import { BookTextIcon, HomeIcon, ImageIcon } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 export default function ComputerNavbar() {
@@ -34,6 +34,27 @@ export default function ComputerNavbar() {
                     color="var(--muted-foreground)"
                   />
                   <div className=" text-lg">Acceuil</div>
+                </div>
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem className="border-r border-(--border)  h-20 flex items-center">
+            <NavigationMenuLink
+              asChild
+              className={`${navigationMenuTriggerStyle()} ${
+                location.pathname == "/histoires" && "bg-(--input)/75"
+              }`}
+            >
+              <Link
+                href="/histoires"
+                className=" hover:bg-(--input) h-full w-full rounded-none"
+              >
+                <div className=" flex gap-2 p-2">
+                  <BookTextIcon
+                    className=" scale-125 mt-1.5"
+                    color="var(--muted-foreground)"
+                  />
+                  <div className=" text-lg">Histoires</div>
                 </div>
               </Link>
             </NavigationMenuLink>
