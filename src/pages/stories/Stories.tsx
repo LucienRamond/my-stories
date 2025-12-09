@@ -18,9 +18,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import CustomEditor from "./CustomEditor";
+import parse from "html-react-parser";
 
 type StoryType = {
   id: number;
@@ -38,6 +39,7 @@ export default function Stories() {
   const [stories, setStories] = useState<StoryType[]>([]);
   const [onDeleteStory, setOnDeleteStory] = useState(false);
   const [onCreateStory, setOnCreateStory] = useState(false);
+  const [editorContent, setEditorContent] = useState("");
   const [message, setMessage] = useState<string>("");
   const formRef = useRef<Form>(null);
 
@@ -70,7 +72,7 @@ export default function Stories() {
       },
       body: JSON.stringify({
         name: form.story_name.value,
-        story: form.story_story.value,
+        story: editorContent,
       }),
     }).then((response) => setMessage(JSON.stringify(response)));
     console.log(message);
@@ -82,13 +84,17 @@ export default function Stories() {
     setOnCreateStory(false);
   };
 
+  const handleEditorChange = (content: string) => {
+    setEditorContent(content);
+  };
+
   return (
     <Page>
       <Dialog open={onCreateStory} onOpenChange={setOnCreateStory}>
         <DialogTrigger className=" mx-auto mb-4 w-[300px]" asChild>
           <Button variant="outline">Ecrire une histoire</Button>
         </DialogTrigger>
-        <DialogContent className=" w-full min-w-[1000px] bg-(--card) border-(--border)">
+        <DialogContent className=" border-x-0 sm:border rounded-none sm:rounded-lg max-w-auto sm:p-6 p-0 py-2 lg:min-w-[1000px] sm:min-w-[95vw] bg-(--card) border-(--border)">
           <DialogHeader className=" ">
             <DialogTitle>Ecris une histoire</DialogTitle>
             <DialogDescription>
@@ -104,7 +110,7 @@ export default function Stories() {
             className="w-full mx-auto"
           >
             <div className=" grid gap-4">
-              <div className=" grid gap-2 w-fit min-w-[500px]">
+              <div className=" grid gap-2 w-full p-2 max-w-[500px]">
                 <Label htmlFor="story_name">Nom de l'histoire</Label>
                 <Input
                   placeholder="Le petit prince"
@@ -115,21 +121,17 @@ export default function Stories() {
                   }
                 />
               </div>
-              <div className=" grid gap-2">
-                <Textarea
-                  placeholder="Il était une fois..."
-                  maxLength={10000}
-                  className=" h-[300px] resize-none"
-                  id="story_story"
+              <div>
+                <CustomEditor
                   value={formData?.story}
-                  onChange={(e) =>
-                    setFormData({ ...formData, story: e.target.value })
-                  }
+                  onChange={handleEditorChange}
+                  placeholder="Il était une fois..."
+                  readOnly={false}
                 />
               </div>
             </div>
 
-            <DialogFooter className=" mt-4 grid grid-cols-2 justify-center!">
+            <DialogFooter className=" p-2 mt-4 grid grid-cols-2 justify-center!">
               <DialogClose asChild>
                 <Button>Annuler</Button>
               </DialogClose>
@@ -139,8 +141,8 @@ export default function Stories() {
         </DialogContent>
       </Dialog>
 
-      <div className=" mx-4 max-w-[1400px] min-w-[1000px] grid xl:grid-cols-2 sm:grid-cols-2 gap-4">
-        {stories.map((story) => {
+      <div className=" mx-4 max-w-[1400px] min-w-[1000px] grid gap-4">
+        {stories.map((story: StoryType) => {
           return (
             <Card
               key={story.id}
@@ -150,7 +152,7 @@ export default function Stories() {
                 <CardTitle>{story.name}</CardTitle>
               </CardHeader>
               <CardContent className="p-2 min-h-[100px] border-y border-(--border)">
-                <div>{story.story}</div>
+                <div>{parse(story.story)}</div>
               </CardContent>
               <CardFooter className=" grid">
                 <div>
@@ -165,6 +167,7 @@ export default function Stories() {
                           <DialogClose asChild>
                             <Button className=" bg-(--input)!">Annuler</Button>
                           </DialogClose>
+                          {/* Supprime le dernier de la liste ????? */}
                           <Button
                             onClick={() => deleteStory(story.id)}
                             className="bg-red-600! hover:bg-red-700!"
