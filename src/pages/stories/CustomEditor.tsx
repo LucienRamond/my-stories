@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { forwardRef, useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
@@ -13,15 +12,7 @@ interface CustomEditorProps {
 }
 
 const CustomEditor = forwardRef<Quill, CustomEditorProps>(
-  (
-    {
-      value = "",
-      onChange,
-      readOnly = false,
-      placeholder = "Write something...",
-    },
-    ref
-  ) => {
+  ({ onChange, readOnly = false, placeholder = "Write something..." }) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const quillRef = useRef<Quill | null>(null);
     const [editorId] = useState(
