@@ -1,11 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import {
   Dialog,
   DialogClose,
@@ -22,12 +16,7 @@ import Page from "@/components/ui/page";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageIcon } from "lucide-react";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
-type DrawingType = {
-  id: number;
-  name: string;
-  img_name: string;
-  description: string;
-};
+import Drawing, { type DrawingType } from "./Drawing";
 
 interface Form extends HTMLFormElement {
   img_name: HTMLInputElement;
@@ -37,9 +26,8 @@ interface Form extends HTMLFormElement {
 export default function Drawings() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [drawings, setDrawings] = useState<DrawingType[]>([]);
-  const [message, setMessage] = useState<string>("");
+  const [refresh, setRefresh] = useState(false);
   const [onUploadFile, setOnUploadFile] = useState(false);
-  const [onDeleteDrawing, setOnDeleteDrawing] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [newDrawing, setNewDrawing] = useState("");
   const formRef = useRef<Form>(null);
@@ -54,7 +42,7 @@ export default function Drawings() {
     fetch(`${BASE_URL}/drawings`)
       .then((response) => response.json())
       .then((data) => setDrawings(data));
-  }, [BASE_URL]);
+  }, [BASE_URL, refresh, onUploadFile]);
 
   const uploadImg = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -88,18 +76,9 @@ export default function Drawings() {
           method: "POST",
           mode: "no-cors",
           body: img_file,
-        }).then((response) => setMessage(JSON.stringify(response)));
+        }).then(() => setOnUploadFile(!onUploadFile));
       })
     );
-    console.log(message);
-
-    setOnUploadFile(false);
-  };
-
-  const deleteDrawing = (drawing_id: number) => {
-    fetch(`${BASE_URL}/drawings/delete/${drawing_id}`, {
-      method: "DELETE",
-    }).then(() => setOnDeleteDrawing(false));
   };
 
   return (
@@ -200,50 +179,12 @@ export default function Drawings() {
       <div className=" mx-4 max-w-[1400px] grid xl:grid-cols-3 sm:grid-cols-2 gap-4">
         {drawings.map((drawing) => {
           return (
-            <Card
+            <Drawing
               key={drawing.id}
-              className="w-full grid grid-rows-[fit-content_fit_content_fit-content] border-(--border) hover:border-(--card-foreground)"
-            >
-              <CardHeader>
-                <CardTitle>{drawing.name}</CardTitle>
-              </CardHeader>
-              <CardContent className="p-0 h-[300px] border-y border-(--border)">
-                <img
-                  className="object-cover h-full w-full"
-                  src={`${BASE_URL}/drawings/${drawing.img_name}`}
-                  alt="Image du projet"
-                />
-              </CardContent>
-              <CardFooter className=" grid">
-                <div>{drawing.description}</div>
-                <div>
-                  <Dialog
-                    open={onDeleteDrawing}
-                    onOpenChange={setOnDeleteDrawing}
-                  >
-                    <DialogTrigger className=" rounded p-1 w-full mt-2 bg-red-600! hover:bg-red-700! ">
-                      Supprimer
-                    </DialogTrigger>
-                    <DialogContent className="bg-(--secondary) border-(--border)">
-                      <DialogHeader>
-                        <DialogTitle>Supprimer le dessin ?</DialogTitle>
-                        <DialogDescription className=" w-full py-4 grid grid-cols-2 gap-4">
-                          <DialogClose asChild>
-                            <Button className=" bg-(--input)!">Annuler</Button>
-                          </DialogClose>
-                          <Button
-                            onClick={() => deleteDrawing(drawing.id)}
-                            className="bg-red-600! hover:bg-red-700!"
-                          >
-                            Confirmer
-                          </Button>
-                        </DialogDescription>
-                      </DialogHeader>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </CardFooter>
-            </Card>
+              drawing={drawing}
+              setRefresh={(state: boolean) => setRefresh(state)}
+              refresh={refresh}
+            />
           );
         })}
       </div>

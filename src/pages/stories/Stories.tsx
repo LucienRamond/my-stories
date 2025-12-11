@@ -1,13 +1,6 @@
 import Page from "@/components/ui/page";
 import { useEffect, useRef, useState } from "react";
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -21,13 +14,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import CustomEditor from "./CustomEditor";
-import parse from "html-react-parser";
-
-type StoryType = {
-  id: number;
-  name: string;
-  story: string;
-};
+import type { StoryType } from "./Story";
+import Story from "./Story";
 
 interface Form extends HTMLFormElement {
   story_name: HTMLInputElement;
@@ -36,13 +24,12 @@ interface Form extends HTMLFormElement {
 
 export default function Stories() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const [refresh, setRefresh] = useState(false);
   const [stories, setStories] = useState<StoryType[]>([]);
-  const [onDeleteStory, setOnDeleteStory] = useState(false);
   const [onCreateStory, setOnCreateStory] = useState(false);
   const [editorContent, setEditorContent] = useState("");
   const [message, setMessage] = useState<string>("");
   const formRef = useRef<Form>(null);
-
   const [formData, setFormData] = useState<StoryType>({
     id: 0,
     name: "",
@@ -53,13 +40,7 @@ export default function Stories() {
     fetch(`${BASE_URL}/stories`)
       .then((response) => response.json())
       .then((data) => setStories(data));
-  }, [BASE_URL]);
-
-  const deleteStory = (story_id: number) => {
-    fetch(`${BASE_URL}/stories/delete/${story_id}`, {
-      method: "DELETE",
-    }).then(() => setOnDeleteStory(false));
-  };
+  }, [BASE_URL, onCreateStory, refresh]);
 
   const postStory = () => {
     const form = formRef.current as Form;
@@ -81,7 +62,7 @@ export default function Stories() {
       name: "",
       story: "",
     });
-    setOnCreateStory(false);
+    setOnCreateStory(!onCreateStory);
   };
 
   const handleEditorChange = (content: string) => {
@@ -144,43 +125,12 @@ export default function Stories() {
       <div className=" mx-4 max-w-[1400px] min-w-[1000px] grid gap-4">
         {stories.map((story: StoryType) => {
           return (
-            <Card
+            <Story
               key={story.id}
-              className="w-full grid grid-rows-[fit-content_fit_content_fit-content] border-(--border) hover:border-(--card-foreground)"
-            >
-              <CardHeader>
-                <CardTitle>{story.name}</CardTitle>
-              </CardHeader>
-              <CardContent className="p-2 min-h-[100px] border-y border-(--border)">
-                <div>{parse(story.story)}</div>
-              </CardContent>
-              <CardFooter className=" grid">
-                <div>
-                  <Dialog open={onDeleteStory} onOpenChange={setOnDeleteStory}>
-                    <DialogTrigger className=" rounded p-1 w-full mt-2 bg-red-600! hover:bg-red-700! ">
-                      Supprimer
-                    </DialogTrigger>
-                    <DialogContent className="bg-(--secondary) border-(--border)">
-                      <DialogHeader>
-                        <DialogTitle>Supprimer le dessin ?</DialogTitle>
-                        <DialogDescription className=" w-full py-4 grid grid-cols-2 gap-4">
-                          <DialogClose asChild>
-                            <Button className=" bg-(--input)!">Annuler</Button>
-                          </DialogClose>
-                          {/* Supprime le dernier de la liste ????? */}
-                          <Button
-                            onClick={() => deleteStory(story.id)}
-                            className="bg-red-600! hover:bg-red-700!"
-                          >
-                            Confirmer
-                          </Button>
-                        </DialogDescription>
-                      </DialogHeader>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </CardFooter>
-            </Card>
+              story={story}
+              setRefresh={(state: boolean) => setRefresh(state)}
+              refresh={refresh}
+            />
           );
         })}
       </div>
