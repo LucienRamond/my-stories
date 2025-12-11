@@ -37,9 +37,7 @@ export default function Stories() {
   });
 
   useEffect(() => {
-    fetch(`${BASE_URL}/stories`, {
-      mode: "cors",
-    })
+    fetch(`${BASE_URL}/stories`)
       .then((response) => response.json())
       .then((data) => setStories(data));
   }, [BASE_URL, onCreateStory, refresh]);
