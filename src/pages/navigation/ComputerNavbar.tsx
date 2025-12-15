@@ -7,7 +7,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Link } from "@radix-ui/react-navigation-menu";
-import { BookTextIcon, HomeIcon, ImageIcon } from "lucide-react";
+import { BookTextIcon, HomeIcon, UserPenIcon } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 export default function ComputerNavbar() {
@@ -59,7 +59,7 @@ export default function ComputerNavbar() {
               </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
-          <NavigationMenuItem className=" h-20 border-(--border) flex items-center">
+          <NavigationMenuItem className="border-r border-(--border)  h-20 flex items-center">
             <NavigationMenuLink
               asChild
               className={`${navigationMenuTriggerStyle()} ${
@@ -68,14 +68,32 @@ export default function ComputerNavbar() {
             >
               <Link
                 href="/dessins"
+                className=" hover:bg-(--input) h-full w-full rounded-none"
+              >
+                <div className=" flex gap-2 p-2">
+                  <BookTextIcon
+                    className=" scale-125 mt-1.5"
+                    color="var(--muted-foreground)"
+                  />
+                  <div className=" text-lg">Dessins</div>
+                </div>
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem className=" h-20 border-(--border) flex items-center">
+            <NavigationMenuLink
+              asChild
+              className={`${navigationMenuTriggerStyle()} ${
+                location.pathname == "/connexion" && "bg-(--input)/75"
+              }`}
+            >
+              <Link
+                href="/connexion"
                 className=" hover:bg-(--input) h-full w-full rounded-l-none rounded-r-[15px]"
               >
                 <div className=" flex gap-2  p-2">
-                  <ImageIcon
-                    color="var(--muted-foreground)"
-                    className=" scale-125 mt-1.5"
-                  />
-                  <div className=" text-lg font-semibold">Dessins</div>
+                  <UserPenIcon className=" scale-125 mt-1.5" />
+                  <div className=" text-lg font-semibold"></div>
                 </div>
               </Link>
             </NavigationMenuLink>

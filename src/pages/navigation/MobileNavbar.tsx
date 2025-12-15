@@ -7,7 +7,13 @@ import {
 } from "@/components/ui/navigation-menu";
 import TextedSeparator from "@/components/ui/texted-separator";
 import { Link } from "@radix-ui/react-navigation-menu";
-import { BookTextIcon, FolderCodeIcon, HomeIcon, MenuIcon } from "lucide-react";
+import {
+  BookTextIcon,
+  FolderCodeIcon,
+  HomeIcon,
+  MenuIcon,
+  UserPenIcon,
+} from "lucide-react";
 import { useState } from "react";
 
 export default function MobileNavbar() {
@@ -39,7 +45,7 @@ export default function MobileNavbar() {
 
         <div
           className={`${
-            open ? "grow-menu h-[300px]" : "reduce-menu h-[54px]"
+            open ? "grow-menu h-[360px]" : "reduce-menu h-[54px]"
           } pt-10 bg-(--card) rounded-xl border border-(--border) row-start-1 z-5 row-end-2 col-start-1 col-end-2 w-full col-span-2`}
         >
           <NavigationMenu
@@ -95,6 +101,22 @@ export default function MobileNavbar() {
                         className=" scale-125 mt-1.5"
                       />
                       <div className=" text-lg font-semibold">Dessins</div>
+                    </div>
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem className="h-20 flex items-center">
+                <NavigationMenuLink asChild>
+                  <Link
+                    href="/connexion"
+                    className=" hover:bg-(--input) h-full  rounded-none"
+                  >
+                    <div className=" flex gap-2  p-2">
+                      <UserPenIcon
+                        color="var(--muted-foreground)"
+                        className=" scale-125 mt-1.5"
+                      />
+                      <div className=" text-lg font-semibold">Utilisateur</div>
                     </div>
                   </Link>
                 </NavigationMenuLink>
