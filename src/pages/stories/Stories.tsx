@@ -122,7 +122,7 @@ export default function Stories() {
         </DialogContent>
       </Dialog>
 
-      <div className=" mx-4 max-w-[1400px] min-w-[1000px] grid gap-4">
+      <div className=" sm:mx-4 mx-1 max-w-[1400px] lg:min-w-[1000px] grid gap-4">
         {stories.map((story: StoryType) => {
           return (
             <Story

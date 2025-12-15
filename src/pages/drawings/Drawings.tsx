@@ -176,7 +176,7 @@ export default function Drawings() {
         </DialogContent>
       </Dialog>
 
-      <div className=" mx-4 max-w-[1400px] grid xl:grid-cols-3 sm:grid-cols-2 gap-4">
+      <div className=" sm:mx-4 mx-1 max-w-[1400px] grid xl:grid-cols-3 sm:grid-cols-2 gap-4">
         {drawings.map((drawing) => {
           return (
             <Drawing

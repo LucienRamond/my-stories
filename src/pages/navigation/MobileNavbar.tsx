@@ -32,7 +32,7 @@ export default function MobileNavbar() {
           </Button>
           <div className="row-start-1 col-start-1 col-end-3 col-span-2 justify-self-center flex gap-2">
             <div className="z-50 h-fit font-bold text-2xl">
-              <span>Lucr4</span>
+              <span>My stories</span>
             </div>
           </div>
         </div>

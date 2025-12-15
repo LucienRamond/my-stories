@@ -46,7 +46,7 @@ export default function Drawing({
   return (
     <Card
       key={drawing.id}
-      className="w-full grid grid-rows-[fit-content_fit_content_fit-content] border-(--border) hover:border-(--card-foreground)"
+      className=" w-full grid grid-rows-[fit-content_fit_content_fit-content] border-(--border) hover:border-(--card-foreground)"
     >
       <CardHeader>
         <CardTitle>{drawing.name}</CardTitle>
