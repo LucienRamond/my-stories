@@ -28,7 +28,6 @@ export default function Stories() {
   const [stories, setStories] = useState<StoryType[]>([]);
   const [onCreateStory, setOnCreateStory] = useState(false);
   const [editorContent, setEditorContent] = useState("");
-  const [message, setMessage] = useState<string>("");
   const formRef = useRef<Form>(null);
   const [formData, setFormData] = useState<StoryType>({
     id: 0,
