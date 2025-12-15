@@ -55,14 +55,12 @@ export default function Stories() {
         name: form.story_name.value,
         story: editorContent,
       }),
-    }).then((response) => setMessage(JSON.stringify(response)));
-    console.log(message);
+    }).then(() => setOnCreateStory(!onCreateStory));
     setFormData({
       id: 0,
       name: "",
       story: "",
     });
-    setOnCreateStory(!onCreateStory);
   };
 
   const handleEditorChange = (content: string) => {
