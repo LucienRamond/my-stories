@@ -23,6 +23,7 @@ export type StoryType = {
   id: number;
   name: string;
   story: string;
+  created_by: [{ name: string }];
 };
 
 export default function Story({
@@ -82,6 +83,7 @@ export default function Story({
           </div>
         </CardFooter>
       )}
+      <div className=" italic px-2">Ecrite par {story.created_by[0].name}</div>
     </Card>
   );
 }
