@@ -47,7 +47,7 @@ export default function CreateDrawing({
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.isLogged) {
+        if (data.islogged) {
           setIsLogged(data.isLogged);
         } else {
           setIsLogged(false);
