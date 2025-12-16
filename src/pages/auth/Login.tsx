@@ -36,6 +36,7 @@ export default function Login() {
       })
       .then((data) => {
         editContent({ ...content, name: data.name });
+        navigate("/");
       });
   };
 
@@ -44,7 +45,7 @@ export default function Login() {
       credentials: "include",
     })
       .then((response) => response.json())
-      .then(() => navigate("/connexion"));
+      .then(() => navigate("/"));
   };
 
   return (
