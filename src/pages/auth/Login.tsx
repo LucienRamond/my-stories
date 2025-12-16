@@ -49,7 +49,7 @@ export default function Login() {
         <div className=" grid gap-4">
           <div className=" w-full text-center text-2xl">{content.name}</div>
           <Button
-            onClick={() => logout}
+            onClick={() => logout()}
             className=" bg-red-600! border border-white/50!"
           >
             Deconnexion
