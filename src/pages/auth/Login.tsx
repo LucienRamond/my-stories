@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Page from "@/components/ui/page";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import { UserContext } from "../providers/UserContext";
 
 interface Form extends HTMLFormElement {
   username: HTMLInputElement;
@@ -10,15 +11,34 @@ interface Form extends HTMLFormElement {
 }
 
 export default function Login() {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const formRef = useRef<Form>(null);
+  const { content, editContent } = useContext(UserContext);
 
   const handleForm = () => {
     const form = formRef.current as Form;
-    return console.log(
-      `Tentative de connexion au compte de ${form.username.value}`
-    );
-  };
+    fetch(`${BASE_URL}/user/login`, {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
 
+      body: JSON.stringify({
+        username: form.username.value,
+        password: form.password.value,
+      }),
+    })
+      .then((response) => {
+        console.log(response.headers.getSetCookie());
+
+        return response.json();
+      })
+      .then((data) => {
+        editContent({ ...content, name: data.name });
+      });
+    console.log(document.cookie);
+  };
   return (
     <Page>
       <form
