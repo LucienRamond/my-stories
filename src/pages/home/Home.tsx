@@ -3,11 +3,14 @@ import { useContext } from "react";
 import { UserContext } from "../providers/UserContext";
 
 export default function Home() {
-  const { content } = useContext(UserContext);
+  const { content, isLoggedIn } = useContext(UserContext);
 
   return (
     <Page>
-      <div>{content.name}</div>
+      {isLoggedIn() && (
+        <div className=" text-2xl font-extrabold">Bonjour {content.name} !</div>
+      )}
+      {!isLoggedIn() && <div className=" text-2xl font-extrabold">Home</div>}
     </Page>
   );
 }

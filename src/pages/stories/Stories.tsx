@@ -1,5 +1,5 @@
 import Page from "@/components/ui/page";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import CustomEditor from "./CustomEditor";
 import type { StoryType } from "./Story";
 import Story from "./Story";
+import { UserContext } from "../providers/UserContext";
 
 interface Form extends HTMLFormElement {
   story_name: HTMLInputElement;
@@ -28,6 +29,8 @@ export default function Stories() {
   const [stories, setStories] = useState<StoryType[]>([]);
   const [onCreateStory, setOnCreateStory] = useState(false);
   const [editorContent, setEditorContent] = useState("");
+  const { isLoggedIn } = useContext(UserContext);
+
   const formRef = useRef<Form>(null);
   const [formData, setFormData] = useState<StoryType>({
     id: 0,
@@ -70,7 +73,9 @@ export default function Stories() {
     <Page>
       <Dialog open={onCreateStory} onOpenChange={setOnCreateStory}>
         <DialogTrigger className=" mx-auto mb-4 w-[300px]" asChild>
-          <Button variant="outline">Ecrire une histoire</Button>
+          <Button disabled={!isLoggedIn()} variant="outline">
+            Ecrire une histoire
+          </Button>
         </DialogTrigger>
         <DialogContent className=" border-x-0 sm:border rounded-none sm:rounded-lg max-w-auto sm:p-6 p-0 py-2 lg:min-w-[1000px] sm:min-w-[95vw] bg-(--card) border-(--border)">
           <DialogHeader className=" ">
