@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import Page from "@/components/ui/page";
 import { useContext, useRef } from "react";
 import { UserContext } from "../providers/UserContext";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Form extends HTMLFormElement {
   username: HTMLInputElement;
@@ -44,7 +44,7 @@ export default function Login() {
       credentials: "include",
     })
       .then((response) => response.json())
-      .then(() => redirect("/"));
+      .then(() => navigate("/"));
   };
 
   return (
