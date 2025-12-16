@@ -44,7 +44,7 @@ export default function Login() {
       credentials: "include",
     })
       .then((response) => response.json())
-      .then(() => navigate("/"));
+      .then(() => navigate("/connexion"));
   };
 
   return (
