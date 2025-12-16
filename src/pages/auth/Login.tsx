@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import Page from "@/components/ui/page";
 import { useContext, useRef } from "react";
 import { UserContext } from "../providers/UserContext";
+import { useNavigate } from "react-router-dom";
 
 interface Form extends HTMLFormElement {
   username: HTMLInputElement;
@@ -14,6 +15,7 @@ export default function Login() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const formRef = useRef<Form>(null);
   const { content, editContent, isLoggedIn } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleForm = () => {
     const form = formRef.current as Form;
@@ -41,6 +43,7 @@ export default function Login() {
     fetch(`${BASE_URL}/user/logout`, {
       credentials: "include",
     });
+    navigate("/");
   };
 
   return (
