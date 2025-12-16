@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageIcon } from "lucide-react";
-import { useRef, useState, type ChangeEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import type { DrawingType } from "./Drawing";
 
 interface Form extends HTMLFormElement {
@@ -31,7 +31,7 @@ export default function CreateDrawing({
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [file, setFile] = useState<File | null>(null);
   const [newDrawing, setNewDrawing] = useState("");
-  const [isLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
   const formRef = useRef<Form>(null);
   const [onUploadFile, setOnUploadFile] = useState(false);
   const [formData, setFormData] = useState<DrawingType>({
@@ -41,16 +41,19 @@ export default function CreateDrawing({
     description: "",
   });
 
-  //   const [cookie] = useCookies(["token"]);
-
-  //   useEffect(() => {
-  //     fetch(`${BASE_URL}/user/islogged`, {
-  //         headers:{
-  //             Cookie:       }
-  //     })
-  //       .then((response) => response.json())
-  //       .then((data) => console.log(data));
-  //   }, [BASE_URL, isLogged]);
+  useEffect(() => {
+    fetch(`${BASE_URL}/user/islogged`, {
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.isLogged) {
+          setIsLogged(data.isLogged);
+        } else {
+          setIsLogged(false);
+        }
+      });
+  }, [BASE_URL, isLogged]);
 
   const uploadImg = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {

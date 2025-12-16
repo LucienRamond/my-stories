@@ -30,14 +30,11 @@ export default function Login() {
       }),
     })
       .then((response) => {
-        console.log(response.headers.getSetCookie());
-
         return response.json();
       })
       .then((data) => {
         editContent({ ...content, name: data.name });
       });
-    console.log(document.cookie);
   };
   return (
     <Page>
