@@ -42,8 +42,7 @@ export default function Login() {
   const logout = () => {
     fetch(`${BASE_URL}/user/logout`, {
       credentials: "include",
-    });
-    navigate("/");
+    }).then(() => navigate("/connexion"));
   };
 
   return (
