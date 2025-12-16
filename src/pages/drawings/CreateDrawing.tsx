@@ -13,8 +13,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageIcon } from "lucide-react";
-import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { useContext, useRef, useState, type ChangeEvent } from "react";
 import type { DrawingType } from "./Drawing";
+import { UserContext } from "../providers/UserContext";
 
 interface Form extends HTMLFormElement {
   img_name: HTMLInputElement;
@@ -31,8 +32,8 @@ export default function CreateDrawing({
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [file, setFile] = useState<File | null>(null);
   const [newDrawing, setNewDrawing] = useState("");
-  const [isLogged, setIsLogged] = useState(false);
   const formRef = useRef<Form>(null);
+  const { isLoggedIn } = useContext(UserContext);
   const [onUploadFile, setOnUploadFile] = useState(false);
   const [formData, setFormData] = useState<DrawingType>({
     id: 0,
@@ -40,20 +41,6 @@ export default function CreateDrawing({
     img_name: "",
     description: "",
   });
-
-  useEffect(() => {
-    fetch(`${BASE_URL}/user/islogged`, {
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.islogged) {
-          setIsLogged(true);
-        } else {
-          setIsLogged(false);
-        }
-      });
-  }, [BASE_URL, isLogged]);
 
   const uploadImg = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -112,7 +99,7 @@ export default function CreateDrawing({
       }}
     >
       <DialogTrigger className=" mx-auto mb-4 w-[300px]" asChild>
-        <Button disabled={!isLogged} variant="outline">
+        <Button disabled={!isLoggedIn()} variant="outline">
           Ajouter un dessin
         </Button>
       </DialogTrigger>

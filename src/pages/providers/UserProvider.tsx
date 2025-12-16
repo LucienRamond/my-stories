@@ -6,7 +6,9 @@ interface Props {
 }
 
 const UserProvider: React.FC<Props> = ({ children }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [content, setContent] = useState<ContentProps>({ name: "Lucc3" });
+  const [isLogged, setIsLogged] = useState(false);
 
   function getContentFromLocalStorage() {
     const savedContent = localStorage.getItem("content");
@@ -31,11 +33,27 @@ const UserProvider: React.FC<Props> = ({ children }) => {
     });
   }
 
+  function isLoggedIn() {
+    fetch(`${BASE_URL}/user/islogged`, {
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.islogged) {
+          setIsLogged(true);
+        } else {
+          setIsLogged(false);
+        }
+      });
+    return isLogged;
+  }
+
   return (
     <UserContext.Provider
       value={{
         content: { name: content.name },
         editContent: editContentHandler,
+        isLoggedIn: isLoggedIn,
       }}
     >
       {children}

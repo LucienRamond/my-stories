@@ -13,7 +13,7 @@ interface Form extends HTMLFormElement {
 export default function Login() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const formRef = useRef<Form>(null);
-  const { content, editContent } = useContext(UserContext);
+  const { content, editContent, isLoggedIn } = useContext(UserContext);
 
   const handleForm = () => {
     const form = formRef.current as Form;
@@ -36,8 +36,10 @@ export default function Login() {
         editContent({ ...content, name: data.name });
       });
   };
+
   return (
     <Page>
+      {isLoggedIn() && <div>{content.name}</div>}
       <form
         ref={formRef}
         onSubmit={(e) => {
