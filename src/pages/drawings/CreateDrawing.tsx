@@ -48,8 +48,7 @@ export default function CreateDrawing({
       .then((response) => response.json())
       .then((data) => {
         if (data.islogged) {
-          console.log("Connecté", data.islogged);
-          setIsLogged(data.isLogged);
+          setIsLogged(true);
         } else {
           setIsLogged(false);
         }
