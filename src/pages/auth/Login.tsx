@@ -37,28 +37,46 @@ export default function Login() {
       });
   };
 
+  const logout = () => {
+    fetch(`${BASE_URL}/user/logout`, {
+      credentials: "include",
+    });
+  };
+
   return (
     <Page>
-      {isLoggedIn() && <div>{content.name}</div>}
-      <form
-        ref={formRef}
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleForm();
-        }}
-      >
-        <div className=" grid gap-4 min-w-[90vw] sm:min-w-[450px]">
-          <div className=" grid gap-2 w-full p-2 ">
-            <Label htmlFor="username">Nom d'utilisateur</Label>
-            <Input placeholder="Detective Conan" id="username" />
-          </div>
-          <div className=" grid gap-2 w-full p-2">
-            <Label htmlFor="password">Mot de passe</Label>
-            <Input type="password" placeholder="*******" id="password" />
-          </div>
-          <Button type="submit">Connexion</Button>
+      {isLoggedIn() && (
+        <div className=" grid gap-4">
+          <div className=" w-full text-center text-2xl">{content.name}</div>
+          <Button
+            onClick={() => logout}
+            className=" bg-red-600! border border-white/50!"
+          >
+            Deconnexion
+          </Button>
         </div>
-      </form>
+      )}
+      {!isLoggedIn() && (
+        <form
+          ref={formRef}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleForm();
+          }}
+        >
+          <div className=" grid gap-4 min-w-[90vw] sm:min-w-[450px]">
+            <div className=" grid gap-2 w-full p-2 ">
+              <Label htmlFor="username">Nom d'utilisateur</Label>
+              <Input placeholder="Detective Conan" id="username" />
+            </div>
+            <div className=" grid gap-2 w-full p-2">
+              <Label htmlFor="password">Mot de passe</Label>
+              <Input type="password" placeholder="*******" id="password" />
+            </div>
+            <Button type="submit">Connexion</Button>
+          </div>
+        </form>
+      )}
     </Page>
   );
 }
