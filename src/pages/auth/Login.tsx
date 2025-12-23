@@ -36,7 +36,12 @@ export default function Login() {
         return response.json();
       })
       .then((data) => {
-        editContent({ ...content, name: data.name });
+        editContent({
+          ...content,
+          name: data.name,
+          id: data.id,
+          avatar_img: JSON.parse(data.avatar_img),
+        });
         navigate("/");
       });
   };
