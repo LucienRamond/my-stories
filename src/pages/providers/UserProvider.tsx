@@ -7,7 +7,18 @@ interface Props {
 
 const UserProvider: React.FC<Props> = ({ children }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const [content, setContent] = useState<ContentProps>({ name: "Lucc3" });
+  const [content, setContent] = useState<ContentProps>({
+    name: "Lucc3",
+    id: 0,
+    avatar_img: {
+      hair: "short12",
+      eyebrows: "variant01",
+      eyes: "variant13",
+      mouth: "variant15",
+      skinColor: "ecad80",
+      hairColor: "3eac2c",
+    },
+  });
   const [isLogged, setIsLogged] = useState(false);
 
   function getContentFromLocalStorage() {
@@ -17,6 +28,15 @@ const UserProvider: React.FC<Props> = ({ children }) => {
     } else {
       setContent({
         name: "Lucc3",
+        id: 0,
+        avatar_img: {
+          hair: "short12",
+          eyebrows: "variant01",
+          eyes: "variant13",
+          mouth: "variant15",
+          skinColor: "ecad80",
+          hairColor: "3eac2c",
+        },
       });
     }
   }
@@ -51,7 +71,11 @@ const UserProvider: React.FC<Props> = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
-        content: { name: content.name },
+        content: {
+          name: content.name,
+          id: content.id,
+          avatar_img: content.avatar_img,
+        },
         editContent: editContentHandler,
         isLoggedIn: isLoggedIn,
       }}
