@@ -29,7 +29,7 @@ export default function HairOptions({
           <Button
             key={hair_option}
             disabled={avatar.hair == hair_option}
-            className=" w-[100px] h-[100px]"
+            className=" w-full h-full"
             onClick={() => setAvatar({ ...avatar, hair: hair_option })}
           >
             <img

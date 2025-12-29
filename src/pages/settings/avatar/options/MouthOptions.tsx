@@ -29,7 +29,7 @@ export default function MouthOptions({
           <Button
             key={mouth_option}
             disabled={avatar.mouth == mouth_option}
-            className=" w-[100px] h-[100px]"
+            className=" w-full h-full"
             onClick={() => setAvatar({ ...avatar, mouth: mouth_option })}
           >
             <img

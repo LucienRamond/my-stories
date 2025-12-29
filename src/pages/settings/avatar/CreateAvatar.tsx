@@ -66,7 +66,7 @@ export default function CreateAvatar({
         </div>
       </div>
 
-      <div className=" grid grid-cols-6 gap-1">
+      <div className=" grid grid-cols-3 justify-items-center p-1 sm:grid-cols-6 gap-1">
         {optionMenu == "hair" && (
           <HairOptions avatar={avatar} setAvatar={setAvatar} />
         )}

@@ -30,7 +30,7 @@ export default function EyebrowsOptions({
           <Button
             key={eyebrows_option}
             disabled={avatar.eyebrows == eyebrows_option}
-            className=" w-[100px] h-[100px]"
+            className=" w-full h-full"
             onClick={() => setAvatar({ ...avatar, eyebrows: eyebrows_option })}
           >
             <img

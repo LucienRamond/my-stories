@@ -30,7 +30,7 @@ export default function EyesOptions({
           <Button
             key={eyes_option}
             disabled={avatar.eyes == eyes_option}
-            className=" w-[100px] h-[100px]"
+            className=" w-full h-full"
             onClick={() => setAvatar({ ...avatar, eyes: eyes_option })}
           >
             <img

@@ -33,7 +33,7 @@ export default function HairColorOptions({
           <Button
             key={hairColor_option}
             disabled={avatar.hairColor == hairColor_option}
-            className=" w-[100px] h-[100px]"
+            className=" w-full h-full"
             onClick={() =>
               setAvatar({ ...avatar, hairColor: hairColor_option })
             }

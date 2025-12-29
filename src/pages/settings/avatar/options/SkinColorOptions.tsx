@@ -33,7 +33,7 @@ export default function SkinColorOptions({
           <Button
             key={skinColor_option}
             disabled={avatar.skinColor == skinColor_option}
-            className=" w-[100px] h-[100px]"
+            className=" w-full h-full"
             onClick={() =>
               setAvatar({ ...avatar, skinColor: skinColor_option })
             }
