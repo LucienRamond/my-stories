@@ -24,41 +24,41 @@ export default function CreateAvatar({
           <Button
             disabled={optionMenu == "hair"}
             onClick={() => setOptionMenu("hair")}
-            className=" basis-[140px]"
+            className=" sm:w-[140px] w-[49vw]"
           >
             Cheveux
           </Button>
           <Button
             disabled={optionMenu == "eyebrows"}
-            className=" w-[140px]"
+            className=" sm:w-[140px] w-[49vw]"
             onClick={() => setOptionMenu("eyebrows")}
           >
             Sourcils
           </Button>
           <Button
             disabled={optionMenu == "eyes"}
-            className=" w-[140px]"
+            className=" sm:w-[140px] w-[49vw]"
             onClick={() => setOptionMenu("eyes")}
           >
             Yeux
           </Button>
           <Button
             disabled={optionMenu == "mouth"}
-            className=" w-[140px]"
+            className=" sm:w-[140px] w-[49vw]"
             onClick={() => setOptionMenu("mouth")}
           >
             Bouche
           </Button>
           <Button
             disabled={optionMenu == "hairColor"}
-            className=" w-[140px]"
+            className=" sm:w-[140px] w-[49vw]"
             onClick={() => setOptionMenu("hairColor")}
           >
             Couleur des cheveux
           </Button>
           <Button
             disabled={optionMenu == "skinColor"}
-            className=" w-[140px]"
+            className=" sm:w-[140px] w-[49vw]"
             onClick={() => setOptionMenu("skinColor")}
           >
             Couleur de peau
