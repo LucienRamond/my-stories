@@ -6,27 +6,19 @@ import { useNavigate } from "react-router-dom";
 import CreateAvatar from "./avatar/CreateAvatar";
 import { createAvatar } from "@dicebear/core";
 import { adventurer } from "@dicebear/collection";
-import {
-  eyebrows,
-  eyes,
-  hair,
-  hairColor,
-  mouth,
-  skinColor,
-  type avatarType,
-} from "./avatar/options/AvatarOptions";
+import { type avatarType } from "./avatar/options/AvatarOptions";
 
 export default function Settings() {
-  const { content } = useContext(UserContext);
+  const { content, editContent } = useContext(UserContext);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
   const [avatar, setAvatar] = useState<avatarType>({
-    hair: hair[11],
-    eyebrows: eyebrows[0],
-    eyes: eyes[12],
-    mouth: mouth[14],
-    skinColor: skinColor[2],
-    hairColor: hairColor[1],
+    hair: content.avatar_img.hair,
+    eyebrows: content.avatar_img.eyebrows,
+    eyes: content.avatar_img.eyes,
+    mouth: content.avatar_img.mouth,
+    skinColor: content.avatar_img.skinColor,
+    hairColor: content.avatar_img.hairColor,
   });
   const [onModifying, setOnModifying] = useState(false);
 
@@ -51,6 +43,26 @@ export default function Settings() {
       .then(() => navigate("/"));
   };
 
+  const update_avatar = () => {
+    fetch(`${BASE_URL}/user/update`, {
+      credentials: "include",
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: content.id,
+        avatar_img: JSON.stringify(avatar),
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        editContent({ ...content, avatar_img: avatar });
+        setOnModifying(false);
+      });
+  };
+
   return (
     <>
       <div className=" grid gap-4">
@@ -65,7 +77,7 @@ export default function Settings() {
         )}
         {onModifying && (
           <div className=" grid gap-2">
-            <Button onClick={() => setOnModifying(false)} className=" mx-auto">
+            <Button onClick={() => update_avatar()} className=" mx-auto">
               Sauvegarder
             </Button>
             <CreateAvatar avatar={avatar} setAvatar={setAvatar} />
