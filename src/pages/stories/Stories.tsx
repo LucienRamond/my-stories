@@ -29,7 +29,7 @@ export default function Stories() {
   const [stories, setStories] = useState<StoryType[]>([]);
   const [onCreateStory, setOnCreateStory] = useState(false);
   const [editorContent, setEditorContent] = useState("");
-  const { isLoggedIn } = useContext(UserContext);
+  const { content, isLoggedIn } = useContext(UserContext);
 
   const formRef = useRef<Form>(null);
   const [formData, setFormData] = useState<StoryType>({
@@ -57,6 +57,7 @@ export default function Stories() {
       body: JSON.stringify({
         name: form.story_name.value,
         story: editorContent,
+        user_id: content.id,
       }),
     }).then(() => setOnCreateStory(!onCreateStory));
     setFormData({
