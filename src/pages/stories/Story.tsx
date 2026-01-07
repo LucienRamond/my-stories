@@ -81,7 +81,7 @@ export default function Story({
       body: JSON.stringify({
         id: story.id,
         name: form.story_name.value,
-        story: editorContent,
+        story: editorContent == "" ? story.story : editorContent,
       }),
     })
       .then(() => setOnModifyStory(false))
