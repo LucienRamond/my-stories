@@ -9,12 +9,19 @@ interface CustomEditorProps {
   onChange?: (content: string) => void;
   readOnly?: boolean;
   placeholder?: string;
+  defaultValue?: string;
 }
 
 const CustomEditor = forwardRef<Quill, CustomEditorProps>(
-  ({ onChange, readOnly = false, placeholder = "Write something..." }) => {
+  ({
+    onChange,
+    defaultValue,
+    readOnly = false,
+    placeholder = "Write something...",
+  }) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const quillRef = useRef<Quill | null>(null);
+    const defaultValueRef = useRef(defaultValue);
     const [editorId] = useState(
       // eslint-disable-next-line react-hooks/purity
       `quill-editor-${Math.random().toString(36).substring(2, 9)}`
@@ -63,6 +70,12 @@ const CustomEditor = forwardRef<Quill, CustomEditorProps>(
           onChange(quill.root.innerHTML);
         }
       });
+
+      if (defaultValueRef.current) {
+        const value = defaultValueRef.current;
+        const delta = quill.clipboard.convert({ html: value });
+        quill.setContents(delta, "silent");
+      }
 
       return () => {
         destroyQuill();

@@ -36,7 +36,7 @@ export default function Stories() {
     id: 0,
     name: "",
     story: "",
-    created_by: [{ name: "" }],
+    created_by: [{ name: "", id: 0 }],
   });
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function Stories() {
       id: 0,
       name: "",
       story: "",
-      created_by: [{ name: "" }],
+      created_by: [{ name: "", id: 0 }],
     });
   };
 
