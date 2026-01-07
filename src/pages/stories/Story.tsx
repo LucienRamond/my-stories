@@ -103,7 +103,10 @@ export default function Story({
         <CardFooter className=" grid">
           <div className=" grid grid-cols-2 gap-2">
             <Dialog open={onDeleteStory} onOpenChange={setOnDeleteStory}>
-              <DialogTrigger className=" rounded p-1 w-full mt-2 bg-red-600! hover:bg-red-700! ">
+              <DialogTrigger
+                disabled={content.id != story.created_by[0].id}
+                className=" rounded p-1 w-full mt-2 bg-red-600! hover:bg-red-700! "
+              >
                 Supprimer
               </DialogTrigger>
               <DialogContent className="bg-(--secondary) border-(--border)">
