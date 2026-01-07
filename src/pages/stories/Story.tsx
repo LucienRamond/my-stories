@@ -103,11 +103,13 @@ export default function Story({
         <CardFooter className=" grid">
           <div className=" grid grid-cols-2 gap-2">
             <Dialog open={onDeleteStory} onOpenChange={setOnDeleteStory}>
-              <DialogTrigger
-                disabled={content.id != story.created_by[0].id}
-                className=" rounded p-1 w-full mt-2 bg-red-600! hover:bg-red-700! "
-              >
-                Supprimer
+              <DialogTrigger asChild>
+                <Button
+                  disabled={content.id != story.created_by[0].id}
+                  className=" rounded p-1 w-full mt-2 bg-red-600! hover:bg-red-700! "
+                >
+                  Supprimer
+                </Button>
               </DialogTrigger>
               <DialogContent className="bg-(--secondary) border-(--border)">
                 <DialogHeader>
@@ -132,12 +134,12 @@ export default function Story({
                   disabled={content.id != story.created_by[0].id}
                   className=" rounded p-1 w-full mt-2 bg-blue-600! hover:bg-blue-700! "
                 >
-                  Modifies ton histoire
+                  Modifier
                 </Button>
               </DialogTrigger>
               <DialogContent className=" border-x-0 sm:border rounded-none sm:rounded-lg max-w-auto sm:p-6 p-0 py-2 lg:min-w-[1000px] sm:min-w-[95vw] bg-(--card) border-(--border)">
                 <DialogHeader className=" ">
-                  <DialogTitle>Modifies une histoire</DialogTitle>
+                  <DialogTitle>Modifies ton histoire</DialogTitle>
                   <DialogDescription>
                     Modifies ton histoire et enregistre la ici !
                   </DialogDescription>
