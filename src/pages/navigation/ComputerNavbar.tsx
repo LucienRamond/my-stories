@@ -7,7 +7,13 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Link } from "@radix-ui/react-navigation-menu";
-import { BookTextIcon, HomeIcon, UserPenIcon } from "lucide-react";
+import {
+  BookTextIcon,
+  FolderCodeIcon,
+  HomeIcon,
+  MessageSquareTextIcon,
+  UserPenIcon,
+} from "lucide-react";
 import { useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { UserContext } from "../providers/UserContext";
@@ -89,11 +95,32 @@ export default function ComputerNavbar() {
                 className=" hover:bg-(--input) h-full w-full rounded-none"
               >
                 <div className=" flex gap-2 p-2">
-                  <BookTextIcon
+                  <FolderCodeIcon
                     className=" scale-125 mt-1.5"
                     color="var(--muted-foreground)"
                   />
                   <div className=" text-lg">Dessins</div>
+                </div>
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem className="border-r border-(--border)  h-20 flex items-center">
+            <NavigationMenuLink
+              asChild
+              className={`${navigationMenuTriggerStyle()} ${
+                location.pathname == "/messagerie" && "bg-(--input)/75"
+              }`}
+            >
+              <Link
+                href="/messagerie"
+                className=" hover:bg-(--input) h-full w-full rounded-none"
+              >
+                <div className=" flex gap-2 p-2">
+                  <MessageSquareTextIcon
+                    className=" scale-125 mt-1.5"
+                    color="var(--muted-foreground)"
+                  />
+                  <div className=" text-lg">Messagerie</div>
                 </div>
               </Link>
             </NavigationMenuLink>

@@ -4,6 +4,7 @@ import Drawings from "./pages/drawings/Drawings";
 import Navbar from "./pages/navigation/Navbar";
 import Stories from "./pages/stories/Stories";
 import Login from "./pages/auth/Login";
+import Inbox from "./pages/inbox/Inbox";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/dessins" element={<Drawings />} />
         <Route path="/histoires" element={<Stories />} />
         <Route path="/connexion" element={<Login />} />
+        <Route path="/messagerie" element={<Inbox />} />
       </Routes>
     </BrowserRouter>
   );

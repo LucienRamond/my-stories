@@ -101,7 +101,7 @@ button:hover {
     height: 54px;
   }
   100% {
-    height: 360px;
+    height: 430px;
   }
 }
 .grow-menu-text {
@@ -124,7 +124,7 @@ button:hover {
 @keyframes slideout {
   0% {
     transform-origin: top;
-    height: 360px;
+    height: 430px;
   }
   100% {
     height: 54px;
