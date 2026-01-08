@@ -19,30 +19,20 @@ import { useContext, useState } from "react";
 import { UserContext } from "../providers/UserContext";
 import { createAvatar } from "@dicebear/core";
 import { adventurer } from "@dicebear/collection";
-import type { avatarType } from "../settings/avatar/options/AvatarOptions";
 
 export default function MobileNavbar() {
   const { content, isLoggedIn } = useContext(UserContext);
   const [open, setOpen] = useState(false);
 
-  const [avatar] = useState<avatarType>({
-    hair: content.avatar_img.hair,
-    eyebrows: content.avatar_img.eyebrows,
-    eyes: content.avatar_img.eyes,
-    mouth: content.avatar_img.mouth,
-    skinColor: content.avatar_img.skinColor,
-    hairColor: content.avatar_img.hairColor,
-  });
-
   const avatarOptions = () => {
     return createAvatar(adventurer, {
       seed: "Felix",
-      hair: [avatar.hair],
-      eyebrows: [avatar.eyebrows],
-      eyes: [avatar.eyes],
-      mouth: [avatar.mouth],
-      skinColor: [avatar.skinColor],
-      hairColor: [avatar.hairColor],
+      hair: [content.avatar_img.hair],
+      eyebrows: [content.avatar_img.eyebrows],
+      eyes: [content.avatar_img.eyes],
+      mouth: [content.avatar_img.mouth],
+      skinColor: [content.avatar_img.skinColor],
+      hairColor: [content.avatar_img.hairColor],
       earrings: undefined,
     }).toDataUri();
   };
