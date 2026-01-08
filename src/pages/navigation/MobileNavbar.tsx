@@ -12,12 +12,40 @@ import {
   FolderCodeIcon,
   HomeIcon,
   MenuIcon,
+  PencilOffIcon,
   UserPenIcon,
 } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../providers/UserContext";
+import { createAvatar } from "@dicebear/core";
+import { adventurer } from "@dicebear/collection";
+import type { avatarType } from "../settings/avatar/options/AvatarOptions";
 
 export default function MobileNavbar() {
+  const { content, isLoggedIn } = useContext(UserContext);
   const [open, setOpen] = useState(false);
+
+  const [avatar] = useState<avatarType>({
+    hair: content.avatar_img.hair,
+    eyebrows: content.avatar_img.eyebrows,
+    eyes: content.avatar_img.eyes,
+    mouth: content.avatar_img.mouth,
+    skinColor: content.avatar_img.skinColor,
+    hairColor: content.avatar_img.hairColor,
+  });
+
+  const avatarOptions = () => {
+    return createAvatar(adventurer, {
+      seed: "Felix",
+      hair: [avatar.hair],
+      eyebrows: [avatar.eyebrows],
+      eyes: [avatar.eyes],
+      mouth: [avatar.mouth],
+      skinColor: [avatar.skinColor],
+      hairColor: [avatar.hairColor],
+      earrings: undefined,
+    }).toDataUri();
+  };
 
   const toggleMenu = () => {
     return setOpen(!open);
@@ -27,7 +55,7 @@ export default function MobileNavbar() {
     <div className="w-full p-2 absolute">
       <div className=" grid grid-cols-1">
         <div
-          className={` grid grid-cols-2 p-2 row-start-1 col-start-1 col-end-2 row-end-2 w-full`}
+          className={` grid grid-cols-3 p-2 row-start-1 col-start-1 col-end-2 row-end-2 w-full`}
         >
           <Button
             onClick={() => setOpen(!open)}
@@ -36,10 +64,24 @@ export default function MobileNavbar() {
           >
             <MenuIcon />
           </Button>
-          <div className="row-start-1 col-start-1 col-end-3 col-span-2 justify-self-center flex gap-2">
+          <div className="row-start-1 col-start-1 col-end-4 col-span-2 justify-self-center flex gap-2">
             <div className="z-50 h-fit font-bold text-2xl">
               <span>My stories</span>
             </div>
+          </div>
+          <div className="row-start-1 h-fit col-start-3 col-end-4 z-50 justify-self-end flex gap-2">
+            {isLoggedIn() && (
+              <img
+                className=" w-13 -translate-y-[7px] mx-auto"
+                src={avatarOptions()}
+                alt={`Avatar de l'utilisateur`}
+              />
+            )}
+            {!isLoggedIn() && (
+              <div className=" flex gap-2  p-2">
+                <PencilOffIcon />
+              </div>
+            )}
           </div>
         </div>
 

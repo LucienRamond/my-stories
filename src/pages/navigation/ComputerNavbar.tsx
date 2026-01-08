@@ -8,10 +8,38 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Link } from "@radix-ui/react-navigation-menu";
 import { BookTextIcon, HomeIcon, UserPenIcon } from "lucide-react";
+import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { UserContext } from "../providers/UserContext";
+import { createAvatar } from "@dicebear/core";
+import { adventurer } from "@dicebear/collection";
+import type { avatarType } from "../settings/avatar/options/AvatarOptions";
 
 export default function ComputerNavbar() {
+  const { content, isLoggedIn } = useContext(UserContext);
   const location = useLocation();
+
+  const [avatar] = useState<avatarType>({
+    hair: content.avatar_img.hair,
+    eyebrows: content.avatar_img.eyebrows,
+    eyes: content.avatar_img.eyes,
+    mouth: content.avatar_img.mouth,
+    skinColor: content.avatar_img.skinColor,
+    hairColor: content.avatar_img.hairColor,
+  });
+
+  const avatarOptions = () => {
+    return createAvatar(adventurer, {
+      seed: "Felix",
+      hair: [avatar.hair],
+      eyebrows: [avatar.eyebrows],
+      eyes: [avatar.eyes],
+      mouth: [avatar.mouth],
+      skinColor: [avatar.skinColor],
+      hairColor: [avatar.hairColor],
+      earrings: undefined,
+    }).toDataUri();
+  };
 
   return (
     <div className=" fixed w-full -translate-x-2 flex justify-center">
@@ -89,12 +117,22 @@ export default function ComputerNavbar() {
             >
               <Link
                 href="/connexion"
-                className=" hover:bg-(--input) h-full w-full rounded-l-none rounded-r-[15px]"
+                className={` hover:bg-(--input) h-full w-full rounded-l-none rounded-r-[15px] ${
+                  isLoggedIn() && "px-1!"
+                }`}
               >
-                <div className=" flex gap-2  p-2">
-                  <UserPenIcon className=" scale-125 mt-1.5" />
-                  <div className=" text-lg font-semibold"></div>
-                </div>
+                {isLoggedIn() && (
+                  <img
+                    className=" w-[60px] mx-auto"
+                    src={avatarOptions()}
+                    alt={`Avatar de l'utilisateur`}
+                  />
+                )}
+                {!isLoggedIn() && (
+                  <div className=" flex gap-2  p-2">
+                    <UserPenIcon className=" scale-125 mt-1.5" />
+                  </div>
+                )}
               </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
