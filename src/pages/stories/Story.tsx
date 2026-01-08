@@ -61,6 +61,7 @@ export default function Story({
 
   const deleteStory = (story_id: number) => {
     fetch(`${BASE_URL}/stories/delete/${story_id}`, {
+      credentials: "include",
       method: "DELETE",
     }).then(() => setRefresh(!refresh));
   };
