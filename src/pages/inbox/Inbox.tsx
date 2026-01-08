@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import Page from "@/components/ui/page";
-import { SendHorizonalIcon } from "lucide-react";
+import { UserPenIcon } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { UserContext } from "../providers/UserContext";
+import Conversation from "./Conversation";
 
 type UserType = {
   id: number;
@@ -14,7 +15,8 @@ type UserType = {
 export default function Inbox() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [users, setUsers] = useState<UserType[]>([]);
-  const { content } = useContext(UserContext);
+  const [selectedConversation, setSelectedConversation] = useState<UserType>();
+  const { content, isLoggedIn } = useContext(UserContext);
 
   useEffect(() => {
     fetch(`${BASE_URL}/users/all`)
@@ -24,28 +26,47 @@ export default function Inbox() {
 
   return (
     <Page>
-      <div className=" grid grid-cols-[1fr_5fr] border rounded">
-        <div className=" w-[200px] border-r p-2 flex flex-col gap-1">
-          {users.map((user) => {
-            return (
-              user.id != content.id && (
-                <Button key={user.id} className=" justify-start">
-                  {user.name}
-                </Button>
-              )
-            );
-          })}
-        </div>
-        <div className=" p-2 min-h-[500px] grid grid-rows-[1fr_max-content]">
-          <div>Conversations</div>
-          <div className=" flex gap-2">
-            <Input className=" text-black border border-(--border) bg-white " />
-            <Button>
-              <SendHorizonalIcon />
-            </Button>
+      {isLoggedIn() && (
+        <div className=" grid grid-cols-[1fr_5fr] border rounded min-h-[500px]">
+          <div className=" w-[200px] border-r p-2 flex flex-col gap-1">
+            {users.map((user) => {
+              return (
+                user.id != content.id && (
+                  <Button
+                    key={user.id}
+                    className=" justify-start"
+                    onClick={() => setSelectedConversation(user)}
+                  >
+                    {user.name}
+                  </Button>
+                )
+              );
+            })}
+          </div>
+
+          <div>
+            {selectedConversation && (
+              <Conversation
+                sender_id={content.id}
+                recipient_id={selectedConversation.id}
+              />
+            )}
           </div>
         </div>
-      </div>
+      )}
+      {!isLoggedIn() && (
+        <div className=" mx-auto grid gap-2">
+          <div>Vous devez être connecté pour envoyer des messages !</div>
+          <NavLink to={"/connexion"}>
+            <Button className=" flex gap-2  p-2 m-auto">
+              <div className=" flex justify-center items-center gap-2">
+                <UserPenIcon />
+                <div>Connexion</div>
+              </div>
+            </Button>
+          </NavLink>
+        </div>
+      )}
     </Page>
   );
 }
