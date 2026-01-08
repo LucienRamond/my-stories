@@ -41,6 +41,7 @@ export default function Drawing({
 
   const deleteDrawing = (drawing_id: number) => {
     fetch(`${BASE_URL}/drawings/delete/${drawing_id}`, {
+      credentials: "include",
       method: "DELETE",
     }).then(() => setRefresh(!refresh));
   };
